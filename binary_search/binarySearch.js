@@ -5,32 +5,23 @@ You must write an algorithm with O(log n) runtime complexity.
 */
 
 const search = function(nums, target){
-    const len = nums.length;
-    const half = Math.floor(len/2);
-    const pivot = nums[half];
-    if(pivot === target) return pivot;
-    if(pivot > target) return helper(0, half-1,nums, target);
-    else return helper(half+1, len-1, nums, target);
- };
+    let [left, right] = [0, nums.length -1];
+    while(left <= right){
+        const median = Math.round((left+right) / 2);
+        const pivot = nums[median];
+        if(pivot === target) return median;
+        else {
+            if(pivot < target) left = median +1;
+            else right = median -1 
+        }
+    }
+    return -1;
 
- const helper = function(start,end,nums,target){
-     const half = Math.floor((end + start) / 2);
-     const pivot = nums[half];
-    //  console.log(pivot, start, end);
-     if(pivot === target) return half;
-     else{
-         if(end === start) return -1;
-         if(pivot > target){
-             return helper(start, half, nums, target);
-         }
-         else{
-             return helper(half,end,nums,target);
-         }
-     }
- }
+ };
 
 
 
 console.log(search([-1,0,3,5,9,12],9))
 console.log(search([-1,0,3,5,9,12],-2))
-console.log(search([-1,0,3,5,9,12],2))
+console.log(search([-1,0,3,5,9,12],12))
+console.log(search([5],3))
